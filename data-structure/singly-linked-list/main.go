@@ -2,25 +2,31 @@ package main
 
 import "fmt"
 
-type node struct {
+type Node struct {
 	data int
-	next *node
+	next *Node
 }
 
-type linkedList struct {
-	head   *node
+type LinkedList struct {
+	head   *Node
 	length int
 }
 
-func (l *linkedList) Prepend(n *node) {
+func (l *LinkedList) Prepend(n *Node) {
 	secondNode := l.head
 	l.head = n
 	l.head.next = secondNode
 	l.length++
 }
 
-func (l *linkedList) DeleteWithValue(value int) {
+func (l *LinkedList) DeleteWithValue(value int) {
 	if l.length == 0 {
+		return
+	}
+
+	if l.head.data == value {
+		l.head = l.head.next
+		l.length--
 		return
 	}
 
@@ -30,12 +36,13 @@ func (l *linkedList) DeleteWithValue(value int) {
 		if previousToDelete.next.next == nil {
 			return
 		}
-		previousToDelete.next = previousToDelete.next.next
-		l.length--
+		previousToDelete = previousToDelete.next
 	}
+	previousToDelete.next = previousToDelete.next.next
+	l.length--
 }
 
-func (l linkedList) PrintListData() {
+func (l LinkedList) PrintListData() {
 	toPrint := l.head
 	for l.length != 0 {
 		fmt.Printf("%d ", toPrint.data)
@@ -46,11 +53,11 @@ func (l linkedList) PrintListData() {
 }
 
 func main() {
-	testList := linkedList{}
-	node1 := &node{data: 1}
-	node2 := &node{data: 20}
-	node3 := &node{data: 300}
-	node4 := &node{data: 444}
+	testList := LinkedList{}
+	node1 := &Node{data: 1}
+	node2 := &Node{data: 20}
+	node3 := &Node{data: 300}
+	node4 := &Node{data: 444}
 
 	testList.Prepend(node1)
 	testList.Prepend(node2)
